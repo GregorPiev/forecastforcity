@@ -42,7 +42,7 @@ module.exports = {
     devServer: {
         host: 'localhost',
         port: 3000,
-        contentBase: __dirname + '/public',
+        contentBase: __dirname + '/public',       
         inline: true,
         hot: true,
         historyApiFallback: true
@@ -59,11 +59,25 @@ module.exports = {
                 plugins: ['transform-runtime']
             },
             {
+                test: /\.jsx$/,
+                loader: "react-hot!babel-loader",
+                exclude: [/node_modules/]
+            },
+            {
+                test: /\.json$/,
+                loader: "json-loader"
+            },
+            {
                 test: /\.less$/,
                 loader: 'style' +
                 '!css?sourceMap' +
                 '!autoprefixer-loader?browsers=last 2 version' +
                 '!less?sourceMap=source-map-less-inline'
+            },
+            {
+                test: /\.css$/,
+                loader: "style-loader!css-loader!autoprefixer-loader",
+                exclude: [/node_modules/]
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,
