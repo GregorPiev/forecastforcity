@@ -11,15 +11,18 @@ module.exports = {
         './src/index.js'
     ],
     output: {
-        publicPath: 'http://localhost:3000/',
+        //publicPath: 'http://localhost:3000/',
         path: __dirname + '/public',
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        sourceMapFilename: 'bundle.map'
     },
+    // devtool: 'inline-source-map',
+    devtool: '#source-map',
     watch: NODE_ENV == 'development',
     watchOptions: {
         aggregateTimeout: 100
     },
-    devtool: NODE_ENV == 'development' ? 'cheap-inline-module-source-map' : null,
+    //devtool: NODE_ENV == 'development' ? 'cheap-inline-module-source-map' : null,
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new ExtractTextPlugin('bundle.css'),
@@ -27,22 +30,27 @@ module.exports = {
             NODE_ENV: JSON.stringify(NODE_ENV)
         }),
         new webpack.NoErrorsPlugin()
+//        new webpack.optimize.UglifyJsPlugin({
+//            sourceMap: true,
+//            warnings: false,
+//            mangle: true
+//        })
     ],
-    resolve: {
-        modulesDirectories: ['node_modules', 'bower_components'],
-        moduleTemplates: ['*', 'index'],
-        extensions: ['', '.js'],
-        root: __dirname + '/src'
-    },
-    resolveLoader: {
-        modulesDirectories: ['node_modules', 'bower_components'],
-        moduleTemplates: ['*-loader', '*'],
-        extensions: ['', '.js']
-    },
+//    resolve: {
+//        modulesDirectories: ['node_modules', 'bower_components'],
+//        moduleTemplates: ['*', 'index'],
+//        extensions: ['', '.js'],
+//        root: __dirname + '/src'
+//    },
+//    resolveLoader: {
+//        modulesDirectories: ['node_modules', 'bower_components'],
+//        moduleTemplates: ['*-loader', '*'],
+//        extensions: ['', '.js']
+//    },
     devServer: {
         host: 'localhost',
         port: 3000,
-        contentBase: __dirname + '/public',       
+        contentBase: __dirname + '/public',
         inline: true,
         hot: true,
         historyApiFallback: true
@@ -70,9 +78,9 @@ module.exports = {
             {
                 test: /\.less$/,
                 loader: 'style' +
-                '!css?sourceMap' +
-                '!autoprefixer-loader?browsers=last 2 version' +
-                '!less?sourceMap=source-map-less-inline'
+                        '!css?sourceMap' +
+                        '!autoprefixer-loader?browsers=last 2 version' +
+                        '!less?sourceMap=source-map-less-inline'
             },
             {
                 test: /\.css$/,
@@ -111,12 +119,12 @@ module.exports = {
 if (NODE_ENV == 'production') {
     console.log('WTF');
     module.exports.plugins.push(
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false,
-                drop_console: true,
-                unsafe: true
-            }
-        })
-    );
+            new webpack.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false,
+                    drop_console: true,
+                    unsafe: true
+                }
+            })
+            );
 }
