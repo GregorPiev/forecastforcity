@@ -107,16 +107,29 @@ class Forecast extends React.Component {
     }
     showWeatherCity = async function() {
         const theCity = this.refs.theCity.value;
+        $('#delay').show('slow');
 
-        //console.log('%cCity: ' + theCity, 'color: violet');
-        const{ choosedCountry } = this.state;
-        //console.log('%cCountry Choosed:' + choosedCountry, 'color: green');
+        const { choosedCountry } = this.state;
 
         if (theCity && choosedCountry) {
             const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${theCity},${choosedCountry}&appid=${API_KEY}&units=metric`);
+              /*  .then(res=>{
+                    if(res.ok){
+                        return res.json();
+                    }else{
+                        return Promise.reject({ status: res.status, statusText: res.statusText });
+                    }
+                    $('#delay').hide('slow', function() {
+                        $('#weatherComp').show('slow');
+                    });
+                })
+                .then(res=>console.log(res))
+                .catch(err=>console.log('Error, with message:', err.statusText));*/
             const data = await apiCall.json();
             //console.log('%cData:' + JSON.stringify(data),'color: blue');
-
+            $('#delay').hide('slow', function() {
+                $('#weatherComp').show('slow');
+            });
 
             this.setState({
                 temperature: data.main.temp,
@@ -133,7 +146,7 @@ class Forecast extends React.Component {
                 error: 'Please enter the value'
             });
         }
-        $('#weatherComp').show('slow');
+
     }
 
     render() {
@@ -163,6 +176,7 @@ class Forecast extends React.Component {
                                 <button id='btnSearch' type='button' onClick={this.showWeatherCity.bind(this)} className='btn btn-primary btn-lg'><span className='glyphicon glyphicon-search'></span>&nbsp;Search</button>
                             </div>
                             <div  className='col-md-4 col-xs-12 '>
+                                    <span id='delay' className='spinner rotate'>&nbsp;</span>
                                     <Weather temperature={temperature} humidity={humidity} description={wdescription} error={error}  city={choosedCity} country={choosedCountry} />
                             </div>
                         </section>

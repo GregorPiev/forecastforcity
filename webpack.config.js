@@ -22,13 +22,23 @@ module.exports = {
     watchOptions: {
         aggregateTimeout: 100
     },
+    node: {
+        fs: 'empty',
+        tls: 'empty',
+        net: 'empty',
+        dns: 'empty',
+        child_process: 'empty'
+    },
+    "target": "web",
     //devtool: NODE_ENV == 'development' ? 'cheap-inline-module-source-map' : null,
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new ExtractTextPlugin('bundle.css'),
         new webpack.DefinePlugin({
-            NODE_ENV: JSON.stringify(NODE_ENV)
+            NODE_ENV: JSON.stringify(NODE_ENV),
+            'global': {}
         }),
+
         new webpack.NoErrorsPlugin()
 //        new webpack.optimize.UglifyJsPlugin({
 //            sourceMap: true,
