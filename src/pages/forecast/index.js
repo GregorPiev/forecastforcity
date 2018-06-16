@@ -4,10 +4,12 @@ import './style.less';
 import 'babel-polyfill';
 import Weather from '../../components/weather/index';
 const API_KEY = 'bbdb11a7359e8238b084e4cf0ce219f0';
+const newURL = window.location.protocol + '//' + window.location.host + '/' + window.location.pathname;
 
 class Forecast extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             page: 'forecast',
             title: 'Forecast',
@@ -29,28 +31,28 @@ class Forecast extends React.Component {
         this.getPageData();
     }
     getPageData() {
-        console.log('%cPage Data', 'color:darkblue');
+        //console.log('%cPage Data', 'color:darkblue');
         $.ajax({
-            url: '/data/' + this.state.page + '.json',
+            url: newURL + 'data/' + this.state.page + '.json',
             dataType: 'json',
             cache: false,
-            success: function (data) {
+            success: function(data) {
                 //console.log('Data of page:' + JSON.stringify(data));
                 this.setState({
                     title: data.title,
                     description: data.description
                 });
             }.bind(this),
-            error: function (xhr, status, err) {
+            error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
     }
 
     getCitiesList() {
-        console.log('%cCities list', 'color: darkorange');
+        //console.log('%cCities list', 'color: darkorange');
         $.ajax({
-            url: '/data/countries.json',
+            url: newURL + 'data/countries.json',
             dataType: 'json',
             headers: {
                 'Content-type': 'application/json',
@@ -58,15 +60,15 @@ class Forecast extends React.Component {
                 'Access-Control-Allow-Origin': '*'
             },
             cache: false,
-            success: function (data) {
+            success: function(data) {
                 //console.log('Data of cities:' + JSON.stringify(data));
                 this.setState({
                     countries: data
                 });
 
             }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
+            error: function(xhr, status, err) {
+                console.error( status, err.toString());
             }.bind(this)
         });
     }
@@ -146,7 +148,6 @@ class Forecast extends React.Component {
                 error: 'Please enter the value'
             });
         }
-
     }
 
     render() {
@@ -182,9 +183,8 @@ class Forecast extends React.Component {
                         </section>
                     </article>
                 </div>
-                );
+        );
     }
-
 }
 
 export default Forecast;

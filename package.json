@@ -38,6 +38,7 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
+    "babel-runtime": "^6.26.0",
     "bootstrap": "3.3.7",
     "classnames": "^2.2.5",
     "gmail-send": "^1.2.14",

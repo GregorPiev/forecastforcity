@@ -2,13 +2,14 @@ import React from 'react';
 import './style.less';
 //import send from 'gmail-send';
 import nodemailer from 'nodemailer';
+const newURL = window.location.protocol + '//' + window.location.host + '/' + window.location.pathname;
 
 class Contact extends React.Component {
     constructor(props) {
         super(props);
         this.state = {page: 'contact', title: 'Contact', description: 'Loading....'};
     }
-    static path = "/contact";
+    static path = '/contact';
     componentDidMount() {
         this.getPageData();
     }
@@ -16,18 +17,18 @@ class Contact extends React.Component {
     getPageData() {
         //console.log("Mount page Contact");
         $.ajax({
-            url: '/data/contact.json',
+            url: newURL + 'data/contact.json',
             dataType: 'json',
             cache: false,
-            success: function (data) {
+            success: function(data) {
                 //console.log("Data:" + JSON.stringify(data));
                 this.setState({
                     title: data.title,
                     description: data.description
                 });
             }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
+            error: function(xhr, status, err) {
+                console.error(status, err.toString());
             }.bind(this)
         });
     }
@@ -69,12 +70,12 @@ class Contact extends React.Component {
         transporter.sendMail(mailOptions, function(error, info){
             if (error) {
                 console.log(error);
-                $("#success").html('').hide();
-                $("#danger").html(error).show('slow');
+                $('#success').html('').hide();
+                $('#danger').html(error).show('slow');
             } else {
                 console.log('Email sent: ' + info.response);
-                $("#success").html(info.response).show('slow');
-                $("#danger").html('').hide();
+                $('#success').html(info.response).show('slow');
+                $('#danger').html('').hide();
             }
         });
     }
@@ -85,7 +86,6 @@ class Contact extends React.Component {
                 <div id='contact_page'>
                     <article>
                         <header><h2>{title}</h2></header>
-
                         <section>
                             <p>{description}</p>
                         </section>
@@ -132,9 +132,8 @@ class Contact extends React.Component {
                         </section>
                     </article>
                 </div>
-                );
+        );
     }
-
 }
 
 export default Contact;

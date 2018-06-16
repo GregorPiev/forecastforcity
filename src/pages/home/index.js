@@ -1,23 +1,26 @@
 import React from 'react';
 //import pageContent from '../../services/pages';
 import './style.less';
+const newURL = window.location.protocol + '//' + window.location.host + '/' + window.location.pathname;
+
 class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {page: 'home', title: '', description: 'Loading....'};
     }
-    static path = "/";
+    static path = '/';
     componentDidMount() {
         this.getPageData();
     }
 
     getPageData() {
+        console.info(newURL);
         $.ajax({
-            url: '/data/home.json',
+            url: newURL + 'data/home.json',
             dataType: 'json',
             cache: false,
             success: function (data) {
-                console.log("Data:" + JSON.stringify(data));
+                //console.log("Data:" + JSON.stringify(data));
                 this.setState({
                     title: data.title,
                     description: data.description
@@ -41,7 +44,7 @@ class Home extends React.Component {
                         </section>
                     </article>
                 </div>
-                );
+        );
     }
 
 }
